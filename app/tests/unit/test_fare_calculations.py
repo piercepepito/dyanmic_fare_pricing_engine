@@ -7,32 +7,36 @@ from app.services import fare_calculator
 
 class TestBaseCost:
     @pytest.mark.parametrize(
-            "distance, duration, expected",
+            "distance, duration, multiplier, expected",
             [
-                (5, 15, 162.5), #purely integers
-                (2.7, 3.65, 108.75), #all floating
-                (3.34, 15, 140.09) #mix between float and integer
+                (5, 15, 1.23, 199.875), #purely integers
+                (2.7, 3.65, 1.76, 172.48), #all floating
+                (3.34, 15, 1.99, 269.645) #mix between float and integer
             ]
     )
-    def test_valid_input(self, distance, duration, expected):
+    def test_valid_input(self, distance, duration, multiplier, expected):
         test_result = fare_calculator.calculate_base_cost(
             distance=distance,
-            duration=duration
+            duration=duration,
+            surge_multiplier=multiplier
         )
 
         assert test_result == expected
 
     @pytest.mark.parametrize(
-            "duration, distance",
+            "duration, distance, multiplier",
             [
-                (-0.1, 2),
-                (3,-4),
-                (0, -1)
+                (-0.1, 2, 1),
+                (3,-4, 1.22),
+                (0, -1, 3.12),
+                (1, 2.13, 0.5),
+                (4, 3.32, 0.99)
             ]
     )
-    def test_invalid_input(self, duration, distance):
+    def test_invalid_input(self, duration, distance, multiplier):
         with pytest.raises(ValidationError):
             fare_calculator.calculate_base_cost(
                 distance = distance,
-                duration = duration
+                duration = duration,
+                surge_multiplier = multiplier
                 )
