@@ -34,8 +34,8 @@ $$
 
 ## Functional Requirements
 ### Rule Evaluation
-- [] FR-001: Accept valid distance and duration values
-- [] FR-002: Accept *demand* and *supply* information
+- [x] FR-001: Accept valid distance and duration values
+- [x] FR-002: Accept *demand* and *supply* information
 - [] FR-003: Calculate the base fare
 - [] FR-004: Evaluate the applicable pricing numbers
 - [] FR-005: Apply the correct surge multiplier
