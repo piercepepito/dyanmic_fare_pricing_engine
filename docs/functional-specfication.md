@@ -36,7 +36,14 @@ $$
 ### Rule Evaluation
 - [x] FR-001: Accept valid distance and duration values
 - [x] FR-002: Accept *demand* and *supply* information
-- [] FR-003: Calculate the base fare
+- [x] FR-003: Define demand and supply rules
+- [x] FR-004: Create rule engine for demand and supply
+- [] FR-005: Define time based rules
+- [] FR-006: Create rule engine for time based rules
+- [] FR-007: Define promos
+- [] FR-008: Create a rule engine for promos
+- [] FR-007: Create rule engine that integrate both surge multipliers from time based, demand and supply rules, and promotions
+- [] FR-005: Calculate the final cost fare
 - [] FR-004: Evaluate the applicable pricing numbers
 - [] FR-005: Apply the correct surge multiplier
 - [] FR-006: Enforce max surge multiplier
