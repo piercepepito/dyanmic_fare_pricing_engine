@@ -18,10 +18,10 @@ NORMAL_DEMAND = 1
 #time based multipliers
 IS_RUSH_HOUR_MORNING = (7,9)
 IS_RUSH_HOUR_AFTERNOON = (16,20)
-IS_RUSH_MULTIPLIER = (1.1, 1.8)
+IS_RUSH_MULTIPLIER = (1, 1.8)
 
 IS_MALL_CLOSING = (20, 22)
-IS_MALL_CLOSE_MULTIPLIER = (1.2, 1.7)
+IS_MALL_CLOSE_MULTIPLIER = (1, 1.7)
 
 #config data validation
 def config_data_validation():
