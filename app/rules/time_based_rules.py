@@ -7,7 +7,7 @@ from app.schemas.rule_engine_schema import SurgeMultiplierRule
 
 day_of_week_name = Literal["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
-def _date_time_extract(date_time: str) -> tuple[str, int]:
+def date_time_extract(date_time: str) -> tuple[str, int]:
     """
     Extracting the day of the week and the hour, based on the datetime input
 
@@ -69,7 +69,7 @@ def is_mall_closing(extracted_date_time: tuple[day_of_week_name, int]) -> bool:
         float: a surge multiplier if left True, otherwise it would return None
 
     """
-    weekend_condition = _is_weekend(extracted_date_time=extracted_date_time)
+    weekend_condition = True if _is_weekend(extracted_date_time=extracted_date_time) == "weekend" else False
 
     hour_of_day = extracted_date_time[1]
 
