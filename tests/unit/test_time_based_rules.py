@@ -15,7 +15,7 @@ class TestTimeBasedRules:
         ]
     )
     def test_valid_input(self, datetime_str, expected):
-        results = time_based_rules._date_time_extract(datetime_str)
+        results = time_based_rules.date_time_extract(datetime_str)
 
         assert expected == results
 
@@ -29,7 +29,7 @@ class TestTimeBasedRules:
         ]
     )
     def test_is_weekend(self, datetime_str, expected):
-        date_extracted = time_based_rules._date_time_extract(datetime_str)
+        date_extracted = time_based_rules.date_time_extract(datetime_str)
 
         result = time_based_rules._is_weekend(date_extracted)
 
@@ -45,7 +45,7 @@ class TestTimeBasedRules:
         ]
     )
     def test_is_rush_hour(self, datetime_str, expected):
-        date_extracted = time_based_rules._date_time_extract(datetime_str)
+        date_extracted = time_based_rules.date_time_extract(datetime_str)
 
         result = time_based_rules.is_rush_hour(date_extracted)
 
@@ -61,7 +61,7 @@ class TestTimeBasedRules:
         ]
     )
     def test_is_mall_closing(self, datetime_str, expected):
-        date_extracted = time_based_rules._date_time_extract(datetime_str)
+        date_extracted = time_based_rules.date_time_extract(datetime_str)
 
         result = time_based_rules.is_mall_closing(date_extracted)
 
