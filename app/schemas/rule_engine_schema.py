@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 
-from typing import Callable, Optional
+from typing import Callable, Optional, Literal
 
 class SurgeMultiplierRule(BaseModel):
     name: str
@@ -12,3 +12,13 @@ class SurgeMultiplierRule(BaseModel):
         default=None,
         description = "shows which should be first processed (wherein 1 is most priority)", 
         gt=0)
+
+class PromoRule(SurgeMultiplierRule):
+    promo_type: Literal["flat_fee", "percentage"] = Field(
+            default=None,
+            description="used to check type of promo which can either be a flat fee or a percentage discount"
+        )
+    promo_num: float = Field(
+        description = "the number that should be subtracted or product of the total",
+        gt = 0
+    )
