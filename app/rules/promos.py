@@ -73,8 +73,8 @@ PROMO_RULES = [
     PromoRule(
         name="LOVEDELIVERED",
         definition="Get 20% off (up to ₱143 off per ride) when heading out for Valentine’s weekend (February 13 to 15).",
-        function = lambda x: x,
-        active=True,
+        function = love_delivered_promo,
+        active=False,
         promo_type="percentage",
         promo_num=0.2
     )
