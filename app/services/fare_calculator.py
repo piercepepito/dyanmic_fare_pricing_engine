@@ -56,6 +56,16 @@ def calculate_final_fare(distance: float,
                          is_airport: bool,
                          partner_cc: bool,
                          promo_name: str = None) -> float:
+    """
+    Computes for the final price of the fare given the distance, estimated duration, demand/supply, and time based parameters.
+
+    Args:
+        is_airport: checks if the destination or origin is an airport
+        partner_cc: checks if the cc is part of a partner cc of the simulaterd hail ride company
+        promo_name: the promo name being used
+    Returns:
+        float: the final price of the fare
+    """
     dt = datetime.fromisoformat(datetime_str)
     requested_date = dt.date()
     requested_hour = dt.hour
