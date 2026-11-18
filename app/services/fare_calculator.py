@@ -85,13 +85,11 @@ def calculate_final_fare(distance: float,
 
     #calculate base cost
     base_cost = calculate_base_cost(distance=distance, duration=duration)
-
     #raw_price
     raw_final_cost = base_cost * surge_multiplier
-
     #get promo
     promo = search_promo.find_promo(promo_name=promo_name)
-
+    #compute for final price
     if promo is None:
         return raw_final_cost
     else:
