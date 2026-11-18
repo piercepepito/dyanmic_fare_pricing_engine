@@ -9,8 +9,7 @@ import logging
 logger=logging.getLogger(__name__)
 
 def calculate_base_cost(distance: float, 
-                        duration: float,
-                        surge_multiplier: float) -> float:
+                        duration: float) -> float:
     """
     Args:
         distance: the distance from the origin to the destination
@@ -26,21 +25,22 @@ def calculate_base_cost(distance: float,
         #validating input data
         payload = {
             "duration": duration,
-            "distance": distance,
-            "surge_multiplier":surge_multiplier
+            "distance": distance
         }
-        ride_information.FinalCost.model_validate(payload)
+        ride_information.BaseCost.model_validate(payload)
 
         #calculating estimated fare
         floor_distance = math.floor(distance)
         floor_duration = math.floor(duration)
     
         base_cost = config.BASE_FARE + (floor_duration*config.DURATION_RATE) + (floor_distance*config.DISTANCE_RATE)
-        final_cost = base_cost * surge_multiplier
-        logger.info("Succesfully calculated base cost")
 
-        return final_cost
+        logger.info("Succesfully calculated base cost")
+        return base_cost
 
     except ValidationError:
         logger.exception("Distance/Duration or config data is using an invalid input. Please check again")
         raise
+
+def calculate_final_fare():
+    return 
