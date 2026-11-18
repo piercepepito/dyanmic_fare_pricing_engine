@@ -11,6 +11,8 @@ def rule_engine_demand_supply(demand: int,
     """
     A rule prioritization method that loops around all possible demand and supply rules, and stops when the condition has been met
     Args:
+        demand: number of passengers in that area
+        supply: the number of drivers in the area
         pricing_rules: a list of all 
     Returns:
         a surge multiplier defined from the demand and supply py
@@ -45,3 +47,28 @@ def rule_engine_time_based(request_date_time: str,
 
    surge_multiplier = math.prod(multipliers)
    return surge_multiplier
+
+def compute_surge_constant(demand: int, 
+                   supply: int,
+                   request_time_date: str,
+                   MIN_SURGE_MULTIPLIER: int=1,
+                   MAX_SURGE_MULTIPLIER: int=2.5) -> float:
+   """
+   Multiplies both surge multipliers from time based and demand supply. A guard clause is created that makes sure that the 
+   output would never go below 1.
+
+   Args:
+        demand: number of passengers in that area
+        supply: the number of drivers in the area
+        request_time_date: the GET request timestamp
+    Returns:
+        final_surge_mult: the product between demand_supply and time_based
+   """
+   demand_supply_multiplier = rule_engine_demand_supply(demand=demand, supply=supply)
+   time_based_multiplier = rule_engine_time_based(request_date_time=request_time_date)
+
+   #clamping
+   raw_surge_mult = demand_supply_multiplier * time_based_multiplier
+   normalize_surge = max(MIN_SURGE_MULTIPLIER, raw_surge_mult)
+
+   return MAX_SURGE_MULTIPLIER if normalize_surge > MAX_SURGE_MULTIPLIER else normalize_surge
