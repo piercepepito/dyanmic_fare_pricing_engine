@@ -39,3 +39,19 @@ class TestTimeBasedEngine:
 
         assert expected == result
 
+class TestSurgeMult:
+    @pytest.mark.parametrize(
+        "demand, supply, datetime_str, expected",
+        [
+            (20, 3, "2026-11-16T08:51:00",2.5), #2.2*1.8
+            (35, 18, "2020-04-08T13:51:00",1.8),#1.8*1
+            (20, 19, "2026-11-16T11:51:00",1.5),#1.5*1
+            (5,5, "2000-08-20T21:51:00",1.7) #1*1.7
+        ]
+    )
+    def test_valid_input(self, demand, supply, datetime_str, expected):
+        result = rule_engine.compute_surge_constant(
+            demand=demand, supply=supply, request_time_date=datetime_str
+        )
+
+        assert result == expected
