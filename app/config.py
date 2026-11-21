@@ -23,6 +23,9 @@ IS_RUSH_MULTIPLIER = (1, 1.8)
 IS_MALL_CLOSING = (20, 22)
 IS_MALL_CLOSE_MULTIPLIER = (1, 1.7)
 
+#ttl for cache invalidation
+max_ttl = 120
+
 #config data validation
 def config_data_validation():
     if BASE_FARE <= 0:
