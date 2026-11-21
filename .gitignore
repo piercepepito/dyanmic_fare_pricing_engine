@@ -1,3 +1,6 @@
 # Python cache files
 __pycache__/
 *.py[cod]
+
+#remove environment files
+.env
