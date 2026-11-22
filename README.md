@@ -83,6 +83,8 @@ tests/
 ├── unit/
 └── integration/
 
+.env
+.pytest.ini
 Dockerfile
 compose.yaml
 requirements.txt
