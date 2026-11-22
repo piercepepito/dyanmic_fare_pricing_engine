@@ -73,3 +73,37 @@ class TestFinalCost:
         )
 
         assert result == expected
+
+class TestGetFare:
+    @patch("app.services.fare_calculator.calculate_final_fare")
+    @patch("app.services.fare_calculator.cache_service")
+    def test_cache_hit(self, mock_cache_service, mock_cal_final_fare):
+        fare_input = {
+            "datetime_str":"2026-11-16T08:51:00"
+        }
+    
+        mock_cache_service.pull_cache.return_value=250
+
+        result = fare_calculator.get_fare(fare_input=fare_input)
+
+        assert result == 250
+
+        mock_cache_service.pull_cache.assert_called_once()
+        mock_cal_final_fare.assert_not_called()
+
+    @patch("app.services.fare_calculator.calculate_final_fare")
+    @patch("app.services.fare_calculator.cache_service")
+    def test_cache_miss(self, mock_cache_service, mock_cal_final_fare):
+        fare_input = {
+                    "datetime_str":"2026-11-16T08:51:00"
+                }
+        mock_cache_service.pull_cache.return_value = None
+        mock_cal_final_fare.return_value = 125
+
+        result = fare_calculator.get_fare(fare_input=fare_input)
+
+        assert result == 125
+
+        mock_cal_final_fare.assert_called_once()
+        mock_cache_service.create_cache.assert_called_once()
+        mock_cache_service.pull_cache.assert_called_once()
