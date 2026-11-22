@@ -26,6 +26,12 @@ $$
 \text{Base Cost} = \text{Base Fare} + (\text{Distance} \times \text{Distance Rate}) + (\text{Duration} \times \text{Duration Rate})
 $$
 
+**Pre-discount Fare:**
+
+$$
+\text{Pre-discount Fare} = \text{Base Cost} \times \text{Surge Multiplier}
+$$
+
 **Final Fare:**
 
 $$
