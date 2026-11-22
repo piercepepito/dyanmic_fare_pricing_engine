@@ -27,9 +27,7 @@ $$
 $$
 
 **Final Fare:**
-
 $$
-\[
 \boxed{
 \text{Final Fare} =
 \max\left(
@@ -39,7 +37,6 @@ $$
 f(\text{Promotion Code}, \text{Pre-discount Fare})
 \right)
 }
-\]
 $$
 
 ## Functional Requirements
