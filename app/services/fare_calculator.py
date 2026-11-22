@@ -1,6 +1,6 @@
 from pydantic import ValidationError
 
-from app.schemas import ride_information
+from app.schemas import ride_information, fare_schema
 import math
 
 from app import config
@@ -11,7 +11,7 @@ from app.services import search_promo
 
 from datetime import datetime
 
-from app.services import fare_calculator, create_hash
+from app.services import create_hash
 from app.cache import ttl, cache_service
 
 import logging
@@ -99,7 +99,7 @@ def calculate_final_fare(distance: float,
         final_cost = promo.function(raw_final_cost, **promo_args)
         return  final_cost
 
-def get_fare(fare_input: dict) -> float:
+def get_fare(fare_input: fare_schema.FareRequest) -> float:
     """
     Calculates fare by getting the hash of the fare input, and tries to get the cache
     If no cache hit, then calculates the fare
@@ -109,23 +109,25 @@ def get_fare(fare_input: dict) -> float:
     Returns:
         float: the final fare price
     """
+    fare_input_json = fare_input.model_dump()
+
     prefix="fare"
     #compute ttl
-    request_time = datetime.fromisoformat(fare_input["datetime_str"])
+    request_time = datetime.fromisoformat(fare_input_json["datetime_str"])
     expiry_ttl = ttl.ttl_compute(request_time.time())
     #create hash
-    hash_input = create_hash.create_hash(fare_input=fare_input)
+    hash_input = create_hash.create_hash(fare_input=fare_input_json)
     #retrieve data from cache
     final_fare=cache_service.pull_cache(prefix=prefix, cache_key=hash_input)
 
     #if cache not found then calculate fare
     if final_fare is None:
         logging.info("Fare cache miss. Calculating fare")
-        final_fare = calculate_final_fare(fare_input)
+        final_fare = calculate_final_fare(**fare_input_json)
         logging.info("Succesfully calculated fare")
         #store into redis
         cache_service.create_cache(prefix=prefix, cache_key=hash_input, value=final_fare, ttl=expiry_ttl)
 
     logging.info("fare cache hit")
 
-    return final_fare
+    return float(final_fare)
