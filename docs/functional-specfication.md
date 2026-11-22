@@ -27,6 +27,7 @@ $$
 $$
 
 **Final Fare:**
+
 $$
 \boxed{
 \text{Final Fare} =
