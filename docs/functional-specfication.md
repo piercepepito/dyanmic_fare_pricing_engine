@@ -29,15 +29,7 @@ $$
 **Final Fare:**
 
 $$
-\boxed{
-\text{Final Fare} =
-\max\left(
-0,\,
-(\text{Base Cost} \times \text{Surge Multiplier})
--
-f(\text{Promotion Code}, \text{Pre-discount Fare})
-\right)
-}
+\text{Final Fare} = \max(0, \text{Pre-discount Fare} - \text{Promotion Discount})
 $$
 
 ## Functional Requirements
