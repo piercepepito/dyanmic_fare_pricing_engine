@@ -5,6 +5,8 @@ from unittest.mock import Mock, patch
 
 from app.services import fare_calculator
 
+from app.schemas import fare_schema
+
 class TestBaseCost:
     @pytest.mark.parametrize(
             "distance, duration, expected",
@@ -75,16 +77,42 @@ class TestFinalCost:
         assert result == expected
 
 class TestGetFare:
+    def test_valid_input(self):
+        fare_input = {
+            "distance":5,
+            "duration":15,
+            "datetime_str": "2026-11-16T08:51:00",
+            "demand": 20,
+            "supply": 3,
+            "is_airport":False, 
+            "partner_cc": False,
+            "promo_name": None
+        }
+
+        fare_input_validated = fare_schema.FareRequest.model_validate(fare_input)
+
+        result = fare_calculator.get_fare(fare_input=fare_input_validated)
+
+        assert result > 0
+
     @patch("app.services.fare_calculator.calculate_final_fare")
     @patch("app.services.fare_calculator.cache_service")
     def test_cache_hit(self, mock_cache_service, mock_cal_final_fare):
         fare_input = {
-            "datetime_str":"2026-11-16T08:51:00"
+            "distance":5,
+            "duration":15,
+            "datetime_str": "2026-11-16T08:51:00",
+            "demand": 20,
+            "supply": 3,
+            "is_airport":False, 
+            "partner_cc": False,
+            "promo_name": None
         }
-    
+        fare_input_validated = fare_schema.FareRequest.model_validate(fare_input)
+        
         mock_cache_service.pull_cache.return_value=250
 
-        result = fare_calculator.get_fare(fare_input=fare_input)
+        result = fare_calculator.get_fare(fare_input=fare_input_validated)
 
         assert result == 250
 
@@ -95,12 +123,21 @@ class TestGetFare:
     @patch("app.services.fare_calculator.cache_service")
     def test_cache_miss(self, mock_cache_service, mock_cal_final_fare):
         fare_input = {
-                    "datetime_str":"2026-11-16T08:51:00"
-                }
+            "distance":5,
+            "duration":15,
+            "datetime_str": "2026-11-16T08:51:00",
+            "demand": 20,
+            "supply": 3,
+            "is_airport":False, 
+            "partner_cc": False,
+            "promo_name": None
+        }
+        fare_input_validated = fare_schema.FareRequest.model_validate(fare_input)
+
         mock_cache_service.pull_cache.return_value = None
         mock_cal_final_fare.return_value = 125
 
-        result = fare_calculator.get_fare(fare_input=fare_input)
+        result = fare_calculator.get_fare(fare_input=fare_input_validated)
 
         assert result == 125
 
