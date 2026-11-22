@@ -134,6 +134,15 @@ Run all tests (unit and integration):
 python -m pytest
 ```
 
+# Monitoring Cache Performance
+```bash
+docker compose exec redis redis-cli INFO stats
+```
+
+Check the following, metrics in the CLI:
+1. keyspace_hits: cache_hit
+2. keyspace_misses: cache_miss
+
 ## Project Goals
 
 This project was made for backend engineering concepts, such as:
