@@ -51,15 +51,16 @@ $$
 - [x] FR-009: Calculate the final cost fare
 - [x] FR-010: Enforce max surge multiplier
 - [x] FR-011: Return final fare
+- [x] FR-012: Added observability of cache performance
 
 ### Caching
-- [x] FR-012: Cache frequently requested route information
-- [x] FR-013: Implement cache expiration (TTL)
-- [x] FR-014: Implement dynamic cache expiration for cache invalidation
-- [x] FR-015: Implement Cache Eviction
+- [x] FR-013: Cache frequently requested route information
+- [x] FR-014: Implement cache expiration (TTL)
+- [x] FR-015: Implement dynamic cache expiration for cache invalidation
+- [x] FR-016: Implement Cache Eviction
 
 ## API
-- [x] FR-015: Add API endpoint for fare_calculation
+- [x] FR-017: Add API endpoint for fare_calculation
 
 ## Non-Functional Requirements
 ## Inputs and Outputs
