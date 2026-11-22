@@ -11,6 +11,9 @@ from app.services import search_promo
 
 from datetime import datetime
 
+from app.services import fare_calculator, create_hash
+from app.cache import ttl, cache_service
+
 import logging
 logger=logging.getLogger(__name__)
 
@@ -95,3 +98,34 @@ def calculate_final_fare(distance: float,
     else:
         final_cost = promo.function(raw_final_cost, **promo_args)
         return  final_cost
+
+def get_fare(fare_input: dict) -> float:
+    """
+    Calculates fare by getting the hash of the fare input, and tries to get the cache
+    If no cache hit, then calculates the fare
+
+    Args:
+        fare_input: the input needed to calculate the fare
+    Returns:
+        float: the final fare price
+    """
+    prefix="fare"
+    #compute ttl
+    request_time = datetime.fromisoformat(fare_input["datetime_str"])
+    expiry_ttl = ttl.ttl_compute(request_time.time())
+    #create hash
+    hash_input = create_hash.create_hash(fare_input=fare_input)
+    #retrieve data from cache
+    final_fare=cache_service.pull_cache(prefix=prefix, cache_key=hash_input)
+
+    #if cache not found then calculate fare
+    if final_fare is None:
+        logging.info("Fare cache miss. Calculating fare")
+        final_fare = calculate_final_fare(fare_input)
+        logging.info("Succesfully calculated fare")
+        #store into redis
+        cache_service.create_cache(prefix=prefix, cache_key=hash_input, value=final_fare, ttl=expiry_ttl)
+
+    logging.info("fare cache hit")
+
+    return final_fare
